@@ -24,6 +24,9 @@ final class ExternalCameraStream: NSObject, AVCaptureVideoDataOutputSampleBuffer
         guard UIDevice.current.userInterfaceIdiom == .pad else {
             throw CameraError("HDMI/UVC is supported only on iPad")
         }
+        guard #available(iOS 17.0, *) else {
+            throw CameraError("HDMI/UVC requires iPadOS 17 or later")
+        }
 
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
