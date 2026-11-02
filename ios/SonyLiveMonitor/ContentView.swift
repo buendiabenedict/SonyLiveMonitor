@@ -52,7 +52,7 @@ struct ContentView: View {
         .persistentSystemOverlays(.hidden)
         .preferredColorScheme(.dark)
         .onAppear { model.start() }
-        .onChange(of: scenePhase) { _, phase in
+        .onChange(of: scenePhase) { phase in
             if phase == .active {
                 model.start()
             } else if phase == .background {
