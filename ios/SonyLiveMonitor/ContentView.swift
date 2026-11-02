@@ -558,7 +558,7 @@ struct ShutterOverlay: View {
                         dragged = false
                     }
             )
-            .onChange(of: portrait) { _, _ in position = nil }
+            .onChange(of: portrait) { _ in position = nil }
     }
 
     private func savedOrDefault() -> CGPoint {
