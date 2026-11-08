@@ -222,7 +222,6 @@ final class MonitorViewModel: ObservableObject {
 
 
     func start() {
-        guard !showGallery else { return }
         geotagEnabled = GeotagManager.shared.enabled
         GeotagManager.shared.startIfEnabled()
 
