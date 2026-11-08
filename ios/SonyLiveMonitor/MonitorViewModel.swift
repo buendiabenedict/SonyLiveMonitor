@@ -146,7 +146,6 @@ final class MonitorViewModel: ObservableObject {
     @Published var shootMode = "still"
     @Published var movieRecording = false
     @Published var showConnectHelp = false
-    @Published var showGallery = false
     @Published var geotagEnabled: Bool
     // Salud del enlace con la camara. iOS no expone el RSSI del WiFi, asi que
     // se estima del transporte real: huecos entre frames (jitter) + drops. Es
@@ -219,12 +218,8 @@ final class MonitorViewModel: ObservableObject {
 
     // -- ciclo de vida ------------------------------------------------------------
 
-    /// Detiene el liveview y abre la galeria de la tarjeta a pantalla completa.
-    /// El monitor se reinicia al cerrar la galeria (onDismiss en ContentView).
-    func openGallery() {
-        stop()
-        showGallery = true
-    }
+    // -- ciclo de vida ------------------------------------------------------------
+
 
     func start() {
         guard !showGallery else { return }

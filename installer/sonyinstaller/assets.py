@@ -19,7 +19,7 @@ import urllib.request
 
 import certifi
 
-APK_NAME = "SonyLiveMonitor-a6000-avcontent.apk"
+APK_NAME = "SmartRemote-a6000-original-v4.30.apk"
 RELEASE_API = "https://api.github.com/repos/otonielpv/SonyLiveMonitor/releases/latest"
 
 # El APK de la camara se publica con un nombre largo para que nadie lo confunda

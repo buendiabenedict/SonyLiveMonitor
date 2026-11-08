@@ -83,9 +83,6 @@ struct ContentView: View {
         )) {
             DiagnosticsView(report: model.diagnosticsReport ?? "")
         }
-        .fullScreenCover(isPresented: $model.showGallery, onDismiss: { model.start() }) {
-            CameraGalleryView { model.showGallery = false }
-        }
     }
 }
 
@@ -369,7 +366,6 @@ struct ControlPanel: View {
                         }
                     }
                     ChipButton(label: "WiFi") { model.showConnectHelp = true }
-                    ChipButton(label: "Camera card") { model.openGallery() }
                     ChipButton(label: "Location: \(model.geotagEnabled ? "on" : "off")",
                                active: model.geotagEnabled) { model.toggleGeotagging() }
                     ChipButton(label: "Diagnostics") { model.runDiagnostics() }
