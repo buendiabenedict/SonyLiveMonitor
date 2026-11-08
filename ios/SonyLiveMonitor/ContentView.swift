@@ -15,7 +15,7 @@ private func linkColor(_ quality: Int) -> Color {
 
 struct ContentView: View {
     @StateObject private var model = MonitorViewModel()
-    @Environment(\\.scenePhase) private var scenePhase
+    @Environment(\.scenePhase) private var scenePhase
     @State private var fullscreen = false
 
     var body: some View {
@@ -52,7 +52,6 @@ struct ContentView: View {
                 }
                 .padding(12)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-                if let toast = model.toast {
                 if let toast = model.toast {
                     Text(toast)
                         .font(.system(size: 13))
