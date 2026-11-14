@@ -220,8 +220,6 @@ final class MonitorViewModel: ObservableObject {
 
 
     func start() {
-        guard !showGallery else { return }
-
         lifecycleLock.lock()
         guard !sessionActive else { lifecycleLock.unlock(); return }
         sessionActive = true
