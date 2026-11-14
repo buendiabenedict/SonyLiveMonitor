@@ -16,53 +16,10 @@ private func linkColor(_ quality: Int) -> Color {
 struct ContentView: View {
     @StateObject private var model = MonitorViewModel()
     @Environment(\.scenePhase) private var scenePhase
-    @State private var fullscreen = false
-
     var body: some View {
         GeometryReader { geo in
-            let portrait = geo.size.height >= geo.size.width
-            ZStack {
-                Color.black.ignoresSafeArea()
-                if fullscreen {
-                    VideoArea(model: model)
-                        .ignoresSafeArea()
-                } else if portrait {
-                    VStack(spacing: 0) {
-                        VideoArea(model: model)
-                        ControlPanel(model: model, columns: 4, scrollable: false)
-                    }
-                } else {
-                    HStack(spacing: 0) {
-                        VideoArea(model: model)
-                        ControlPanel(model: model, columns: 2, scrollable: true)
-                            .frame(width: 300)
-                    }
-                }
-                if !fullscreen {
-                    ShutterOverlay(model: model, containerSize: geo.size, portrait: portrait)
-                }
-                Button {
-                    fullscreen.toggle()
-                } label: {
-                    Image(systemName: fullscreen ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(.white)
-                        .padding(10)
-                        .background(Circle().fill(Color.black.opacity(0.55)))
-                }
-                .padding(12)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-                if let toast = model.toast {
-                    Text(toast)
-                        .font(.system(size: 13))
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 14).padding(.vertical, 8)
-                        .background(Capsule().fill(Color.black.opacity(0.75)))
-                        .frame(maxHeight: .infinity, alignment: .bottom)
-                        .padding(.bottom, portrait ? geo.size.height * 0.35 : 40)
-                        .allowsHitTesting(false)
-                }
-            }
+            LiveViewOnly(model: model)
+                .frame(width: geo.size.width, height: geo.size.height)
         }
         .background(Color.black.ignoresSafeArea())
         .statusBarHidden(true)
@@ -76,13 +33,29 @@ struct ContentView: View {
                 model.stop()
             }
         }
-        .sheet(isPresented: $model.showConnectHelp) { ConnectHelpView() }
-        .sheet(isPresented: Binding(
-            get: { model.diagnosticsReport != nil },
-            set: { if !$0 { model.diagnosticsReport = nil } }
-        )) {
-            DiagnosticsView(report: model.diagnosticsReport ?? "")
+    }
+}
+
+struct LiveViewOnly: View {
+    @ObservedObject var model: MonitorViewModel
+
+    var body: some View {
+        ZStack {
+            Color.black
+            if let image = model.image, model.statusMessage == nil {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+            }
+            if let message = model.statusMessage {
+                Text(message)
+                    .font(.system(size: 16, weight: .semibold, design: .monospaced))
+                    .foregroundColor(.red)
+                    .multilineTextAlignment(.center)
+                    .padding(24)
+            }
         }
+        .ignoresSafeArea()
     }
 }
 

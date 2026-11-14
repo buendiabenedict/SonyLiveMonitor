@@ -48,7 +48,7 @@ the reference if something fails.
 | **Desktop installer** (`installer/`) | Windows / macOS / Linux | Detects the camera over USB and installs the patched Smart Remote |
 | **Patched Smart Remote** (`camera-patches/`) | On the camera | Smart Remote with `avContent` enabled, so the card gallery and RAW download work |
 | **Android app** (`android/`) | Android phone | The main monitor. Validated on a real a6000: ~25 fps, ~5 ms frame age |
-| **iOS app** (`ios/`, SwiftUI) | iPhone | Full port of the Android app |
+| **iOS app** (`ios/`, SwiftUI) | iPhone | Live-view-only monitor for iOS 16+ |
 | **Python prototype** (root) | Desktop | Useful for diagnostics and development |
 
 ---
@@ -93,6 +93,11 @@ the reference if something fails.
 - **Delete from the card** with a second confirmation, where the camera reports
   API support.
 - **Automatic reconnection**, including re-binding to the active Wi-Fi.
+
+The iOS build intentionally exposes only the live-view preview. Camera controls,
+the shutter overlay, gallery, downloads, diagnostics, geotagging, and HDMI mode
+remain Android-only. The preview continues while the camera records video or
+captures photos using the camera's physical controls.
 
 Android saves to `Download/SonyLiveMonitor`; iOS saves to the Files app under
 *Sony Live Monitor*. Either can be pointed at a folder you pick.

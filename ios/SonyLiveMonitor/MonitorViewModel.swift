@@ -218,12 +218,9 @@ final class MonitorViewModel: ObservableObject {
 
     // -- ciclo de vida ------------------------------------------------------------
 
-    // -- ciclo de vida ------------------------------------------------------------
-
 
     func start() {
-        geotagEnabled = GeotagManager.shared.enabled
-        GeotagManager.shared.startIfEnabled()
+        guard !showGallery else { return }
 
         lifecycleLock.lock()
         guard !sessionActive else { lifecycleLock.unlock(); return }
@@ -241,7 +238,6 @@ final class MonitorViewModel: ObservableObject {
     }
 
     func stop() {
-        GeotagManager.shared.stop()
         lifecycleLock.lock()
         sessionActive = false
         sessionGeneration &+= 1
@@ -410,8 +406,6 @@ final class MonitorViewModel: ObservableObject {
                     publishMessage("Connecting to the camera...")
                     let url = try SonyCamera.startLiveview()
                     guard isSessionActive(generation) else { return }
-                    refreshChips()
-                    startCameraEventListener(generation: generation)
                     streamAndRender(url: url, generation: generation)
                 } catch {
                     guard isSessionActive(generation) else { return }
